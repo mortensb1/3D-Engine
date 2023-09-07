@@ -8,6 +8,7 @@ let i = 0;
 
 function setup() {
   createCanvas(400, 400);
+  angleMode(DEGREES);
 }
 
 function draw() {
@@ -22,31 +23,33 @@ function draw() {
 
   // i -= 1;
 
-  Prik3D(-100,-100,-100+i);
-  Prik3D(-100,100,-100+i);
-  Prik3D(100,100,-100+i);
-  Prik3D(100,-100,-100+i);
+  // Prik3D(-100,-100,-100+i);
+  // Prik3D(-100,100,-100+i);
+  // Prik3D(100,100,-100+i);
+  // Prik3D(100,-100,-100+i);
 
 
-  Line3D(-100,-100,-100+i,-100,100,-100+i);
-  Line3D(-100,100,-100+i,100,100,-100+i)
-  Line3D(100,100,-100+i,100,-100,-100+i)
-  Line3D(100,-100,-100+i,-100,-100,-100+i)
+  // Line3D(-100,-100,-100+i,-100,100,-100+i);
+  // Line3D(-100,100,-100+i,100,100,-100+i)
+  // Line3D(100,100,-100+i,100,-100,-100+i)
+  // Line3D(100,-100,-100+i,-100,-100,-100+i)
   
-  Prik3D(-100,-100,-200+i);
-  Prik3D(-100,100,-200+i);
-  Prik3D(100,100,-200+i);
-  Prik3D(100,-100,-200+i);
+  // Prik3D(-100,-100,-200+i);
+  // Prik3D(-100,100,-200+i);
+  // Prik3D(100,100,-200+i);
+  // Prik3D(100,-100,-200+i);
 
-  Line3D(-100,-100,-200+i,-100,100,-200+i);
-  Line3D(-100,100,-200+i,100,100,-200+i)
-  Line3D(100,100,-200+i,100,-100,-200+i)
-  Line3D(100,-100,-200+i,-100,-100,-200+i)
+  // Line3D(-100,-100,-200+i,-100,100,-200+i);
+  // Line3D(-100,100,-200+i,100,100,-200+i)
+  // Line3D(100,100,-200+i,100,-100,-200+i)
+  // Line3D(100,-100,-200+i,-100,-100,-200+i)
 
-  Line3D(-100,-100,-200+i,-100,-100,-100+i)
-  Line3D(-100,100,-200+i,-100,100,-100+i)
-  Line3D(100,100,-200+i,100,100,-100+i)
-  Line3D(100,-100,-200+i,100,-100,-100+i)
+  // Line3D(-100,-100,-200+i,-100,-100,-100+i)
+  // Line3D(-100,100,-200+i,-100,100,-100+i)
+  // Line3D(100,100,-200+i,100,100,-100+i)
+  // Line3D(100,-100,-200+i,100,-100,-100+i)
+
+  Box3D(0,0,0,30,40,40);
 
   if (keyIsDown(65)) //a
   {
@@ -72,7 +75,6 @@ function draw() {
   {
     camPos[2] += 2
   }
-
 }
 
 function Prik3D (prikX,prikY,prikZ)
@@ -103,4 +105,22 @@ function Line3D (lineX1,lineY1,lineZ1,lineX2,lineY2,lineZ2)
   linePositionSkermY2 = (lineY2*cS)/lineZ2;
 
   line(linePositionSkermX1 + width/2,linePositionSkermY1 + height/2,linePositionSkermX2 + width/2,linePositionSkermY2 + height/2)
+}
+
+function Box3D (x,y,z,w,h,d)
+{
+  Line3D(x,y,z,x+w,y,z);
+  Line3D(x+w,y,z,x+w,y+h,z);
+  Line3D(x+w,y+h,z,x,y+h,z);
+  Line3D(x,y+h,z,x,y,z);
+
+  Line3D(x,y,z,x,y,z-d);
+  Line3D(x+w,y,z,x+w,y,z-d);
+  Line3D(x+w,y+h,z,x+w,y+h,z-d);
+  Line3D(x,y+h,z,x,y+h,z-d);
+
+  Line3D(x,y,z-d,x+w,y,z-d);
+  Line3D(x+w,y,z-d,x+w,y+h,z-d);
+  Line3D(x+w,y+h,z-d,x,y+h,z-d);
+  Line3D(x,y+h,z-d,x,y,z-d);
 }
