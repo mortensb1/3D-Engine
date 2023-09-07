@@ -4,8 +4,6 @@ let cS = -100;
 
 let prikSk = [0,0];
 
-let i = 0;
-
 function setup() {
   createCanvas(400, 400);
   angleMode(DEGREES);
@@ -93,28 +91,32 @@ function Box3D (x,y,z,w,h,d,center,scaleX,scaleY,scaleZ)
   h = h * scaleY;
   d = d * scaleZ;
 
+  let dForan = 0
+  let dBagved = -d
+
   if (center)
   {
     x = x - (w/2);
     y = y - (h/2);
-    
+    dForan = d/2
+    dBagved = -(d/2)
   }
 
   // forreste firkant
-  Line3D(x,y,z+d/2,x+w,y,z+d/2);
-  Line3D(x+w,y,z+d/2,x+w,y+h,z+d/2);
-  Line3D(x+w,y+h,z+d/2,x,y+h,z+d/2);
-  Line3D(x,y+h,z+d/2,x,y,z+d/2);
+  Line3D(x,y,z+dForan,x+w,y,z+dForan);
+  Line3D(x+w,y,z+dForan,x+w,y+h,z+dForan);
+  Line3D(x+w,y+h,z+dForan,x,y+h,z+dForan);
+  Line3D(x,y+h,z+dForan,x,y,z+dForan);
 
   //linjerne mellem den forreste- og den bagerste firkant
-  Line3D(x,y,z+d/2,x,y,z-d/2);
-  Line3D(x+w,y,z+d/2,x+w,y,z-d/2);
-  Line3D(x+w,y+h,z+d/2,x+w,y+h,z-d/2);
-  Line3D(x,y+h,z+d/2,x,y+h,z-d/2);
+  Line3D(x,y,z+dForan,x,y,z+dBagved);
+  Line3D(x+w,y,z+dForan,x+w,y,z+dBagved);
+  Line3D(x+w,y+h,z+dForan,x+w,y+h,z+dBagved);
+  Line3D(x,y+h,z+dForan,x,y+h,z+dBagved);
 
   // den bagereste firkant
-  Line3D(x,y,z-d/2,x+w,y,z-d/2);
-  Line3D(x+w,y,z-d/2,x+w,y+h,z-d/2);
-  Line3D(x+w,y+h,z-d/2,x,y+h,z-d/2);
-  Line3D(x,y+h,z-d/2,x,y,z-d/2);
+  Line3D(x,y,z+dBagved,x+w,y,z+dBagved);
+  Line3D(x+w,y,z+dBagved,x+w,y+h,z+dBagved);
+  Line3D(x+w,y+h,z+dBagved,x,y+h,z+dBagved);
+  Line3D(x,y+h,z+dBagved,x,y,z+dBagved);
 }
