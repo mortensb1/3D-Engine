@@ -9,47 +9,21 @@ let i = 0;
 function setup() {
   createCanvas(400, 400);
   angleMode(DEGREES);
+
+  sliderScaleX = createSlider(0.1,10,1,0.1);
+  sliderScaleX.position(250,10);
+
+  sliderScaleY = createSlider(0.1,10,1,0.1);
+  sliderScaleY.position(250,30);
+
+  sliderScaleZ = createSlider(0.1,10,1,0.1);
+  sliderScaleZ.position(250,50);
 }
 
 function draw() {
   background(220);
 
-  // prikPos[2]--;
-
-  // prikSk[0] = (prikPos[0]*cS)/prikPos[2]
-  // prikSk[1] = (prikPos[1]*cS)/prikPos[2]
-
-  // point(prikSk[0],prikSk[1]);
-
-  // i -= 1;
-
-  // Prik3D(-100,-100,-100+i);
-  // Prik3D(-100,100,-100+i);
-  // Prik3D(100,100,-100+i);
-  // Prik3D(100,-100,-100+i);
-
-
-  // Line3D(-100,-100,-100+i,-100,100,-100+i);
-  // Line3D(-100,100,-100+i,100,100,-100+i)
-  // Line3D(100,100,-100+i,100,-100,-100+i)
-  // Line3D(100,-100,-100+i,-100,-100,-100+i)
-  
-  // Prik3D(-100,-100,-200+i);
-  // Prik3D(-100,100,-200+i);
-  // Prik3D(100,100,-200+i);
-  // Prik3D(100,-100,-200+i);
-
-  // Line3D(-100,-100,-200+i,-100,100,-200+i);
-  // Line3D(-100,100,-200+i,100,100,-200+i)
-  // Line3D(100,100,-200+i,100,-100,-200+i)
-  // Line3D(100,-100,-200+i,-100,-100,-200+i)
-
-  // Line3D(-100,-100,-200+i,-100,-100,-100+i)
-  // Line3D(-100,100,-200+i,-100,100,-100+i)
-  // Line3D(100,100,-200+i,100,100,-100+i)
-  // Line3D(100,-100,-200+i,100,-100,-100+i)
-
-  Box3D(0,0,-50,30,40,40,true);
+  Box3D(0,0,0,30,40,40,true,sliderScaleX.value(),sliderScaleY.value(),sliderScaleZ.value());
 
   Movement();
 }
@@ -96,6 +70,7 @@ function Prik3D (prikX,prikY,prikZ)
 
 function Line3D (lineX1,lineY1,lineZ1,lineX2,lineY2,lineZ2)
 {
+
   lineX1 += camPos[0];
   lineX2 += camPos[0];
   lineY1 += camPos[1];
@@ -112,29 +87,34 @@ function Line3D (lineX1,lineY1,lineZ1,lineX2,lineY2,lineZ2)
   line(linePositionSkermX1 + width/2,linePositionSkermY1 + height/2,linePositionSkermX2 + width/2,linePositionSkermY2 + height/2)
 }
 
-function Box3D (x,y,z,w,h,d,center)
+function Box3D (x,y,z,w,h,d,center,scaleX,scaleY,scaleZ)
 {
+  w = w * scaleX;
+  h = h * scaleY;
+  d = d * scaleZ;
+
   if (center)
   {
-    x = x - (w/2)
-    y = y - (h/2)
+    x = x - (w/2);
+    y = y - (h/2);
+    
   }
 
   // forreste firkant
-  Line3D(x,y,z,x+w,y,z);
-  Line3D(x+w,y,z,x+w,y+h,z);
-  Line3D(x+w,y+h,z,x,y+h,z);
-  Line3D(x,y+h,z,x,y,z);
+  Line3D(x,y,z+d/2,x+w,y,z+d/2);
+  Line3D(x+w,y,z+d/2,x+w,y+h,z+d/2);
+  Line3D(x+w,y+h,z+d/2,x,y+h,z+d/2);
+  Line3D(x,y+h,z+d/2,x,y,z+d/2);
 
   //linjerne mellem den forreste- og den bagerste firkant
-  Line3D(x,y,z,x,y,z-d);
-  Line3D(x+w,y,z,x+w,y,z-d);
-  Line3D(x+w,y+h,z,x+w,y+h,z-d);
-  Line3D(x,y+h,z,x,y+h,z-d);
+  Line3D(x,y,z+d/2,x,y,z-d/2);
+  Line3D(x+w,y,z+d/2,x+w,y,z-d/2);
+  Line3D(x+w,y+h,z+d/2,x+w,y+h,z-d/2);
+  Line3D(x,y+h,z+d/2,x,y+h,z-d/2);
 
   // den bagereste firkant
-  Line3D(x,y,z-d,x+w,y,z-d);
-  Line3D(x+w,y,z-d,x+w,y+h,z-d);
-  Line3D(x+w,y+h,z-d,x,y+h,z-d);
-  Line3D(x,y+h,z-d,x,y,z-d);
+  Line3D(x,y,z-d/2,x+w,y,z-d/2);
+  Line3D(x+w,y,z-d/2,x+w,y+h,z-d/2);
+  Line3D(x+w,y+h,z-d/2,x,y+h,z-d/2);
+  Line3D(x,y+h,z-d/2,x,y,z-d/2);
 }
