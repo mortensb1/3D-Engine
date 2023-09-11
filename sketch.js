@@ -2,6 +2,8 @@ let prikPos = [100,200,-100];
 let camPos = [0,0,0];
 let cS = -100;
 
+let vinkel = 0;
+
 let prikSk = [0,0];
 
 function setup() {
@@ -24,6 +26,8 @@ function draw() {
   Box3D(0,0,0,30,40,40,true,sliderScaleX.value(),sliderScaleY.value(),sliderScaleZ.value());
 
   Movement();
+
+  vinkel++;
 }
 
 function Movement ()
@@ -87,13 +91,16 @@ function Line3D (lineX1,lineY1,lineZ1,lineX2,lineY2,lineZ2)
 
 function Box3D (x,y,z,w,h,d,center,scaleX,scaleY,scaleZ)
 {
+  //skaler boxen
   w = w * scaleX;
   h = h * scaleY;
   d = d * scaleZ;
 
+  //sørger for at man har mulighed for at skalere fra midten
   let dForan = 0
   let dBagved = -d
 
+  // sklarer fra midten
   if (center)
   {
     x = x - (w/2);
@@ -102,21 +109,36 @@ function Box3D (x,y,z,w,h,d,center,scaleX,scaleY,scaleZ)
     dBagved = -(d/2)
   }
 
+
+  let  point3DBox = 
+  [
+    [[x,y,z+dForan],[x+w,y,z+dForan],[x+w,y+h,z+dForan],[x,y+h,z+dForan]],
+    [[x,y,z+dBagved],[x+w,y,z+dBagved],[x+w,y+h,z+dBagved],[x,y+h,z+dBagved]]
+  ];
+
+  console.log("old = " + point3DBox[0][0][0])
+  console.log("new = " + (point3DBox[0][0][0] * cos(vinkel)))
+  point3DBox[0][0][0] += point3DBox[0][0][0] * cos(vinkel);
+  point3DBox[0][0][2] += point3DBox[0][0][2] * sin(vinkel);
+
+  point3DBox[0][1][0] += point3DBox[0][1][0] * cos(vinkel);
+  point3DBox[0][1][2] += point3DBox[0][1][2] * sin(vinkel);
+
   // forreste firkant
-  Line3D(x,y,z+dForan,x+w,y,z+dForan);
-  Line3D(x+w,y,z+dForan,x+w,y+h,z+dForan);
-  Line3D(x+w,y+h,z+dForan,x,y+h,z+dForan);
-  Line3D(x,y+h,z+dForan,x,y,z+dForan);
+  Line3D(point3DBox[0][0][0],point3DBox[0][0][1],point3DBox[0][0][2],point3DBox[0][1][0],point3DBox[0][1][1],point3DBox[0][1][2]);
+  Line3D(point3DBox[0][1][0],point3DBox[0][1][1],point3DBox[0][1][2],point3DBox[0][2][0],point3DBox[0][2][1],point3DBox[0][2][2]);
+  Line3D(point3DBox[0][2][0],point3DBox[0][2][1],point3DBox[0][2][2],point3DBox[0][3][0],point3DBox[0][3][1],point3DBox[0][3][2]);
+  Line3D(point3DBox[0][3][0],point3DBox[0][3][1],point3DBox[0][3][2],point3DBox[0][0][0],point3DBox[0][0][1],point3DBox[0][0][2]);
 
   //linjerne mellem den forreste- og den bagerste firkant
-  Line3D(x,y,z+dForan,x,y,z+dBagved);
-  Line3D(x+w,y,z+dForan,x+w,y,z+dBagved);
-  Line3D(x+w,y+h,z+dForan,x+w,y+h,z+dBagved);
-  Line3D(x,y+h,z+dForan,x,y+h,z+dBagved);
+  Line3D(point3DBox[0][0][0],point3DBox[0][0][1],point3DBox[0][0][2],point3DBox[1][0][0],point3DBox[1][0][1],point3DBox[1][0][2]);
+  Line3D(point3DBox[0][1][0],point3DBox[0][1][1],point3DBox[0][1][2],point3DBox[1][1][0],point3DBox[1][1][1],point3DBox[1][1][2]);
+  Line3D(point3DBox[0][2][0],point3DBox[0][2][1],point3DBox[0][2][2],point3DBox[1][2][0],point3DBox[1][2][1],point3DBox[1][2][2]);
+  Line3D(point3DBox[0][3][0],point3DBox[0][3][1],point3DBox[0][3][2],point3DBox[1][3][0],point3DBox[1][3][1],point3DBox[1][3][2]);
 
   // den bagereste firkant
-  Line3D(x,y,z+dBagved,x+w,y,z+dBagved);
-  Line3D(x+w,y,z+dBagved,x+w,y+h,z+dBagved);
-  Line3D(x+w,y+h,z+dBagved,x,y+h,z+dBagved);
-  Line3D(x,y+h,z+dBagved,x,y,z+dBagved);
+  Line3D(point3DBox[1][0][0],point3DBox[1][0][1],point3DBox[1][0][2],point3DBox[1][1][0],point3DBox[1][1][1],point3DBox[1][1][2]);
+  Line3D(point3DBox[1][1][0],point3DBox[1][1][1],point3DBox[1][1][2],point3DBox[1][2][0],point3DBox[1][2][1],point3DBox[1][2][2]);
+  Line3D(point3DBox[1][2][0],point3DBox[1][2][1],point3DBox[1][2][2],point3DBox[1][3][0],point3DBox[1][3][1],point3DBox[1][3][2]);
+  Line3D(point3DBox[1][3][0],point3DBox[1][3][1],point3DBox[1][3][2],point3DBox[1][0][0],point3DBox[1][0][1],point3DBox[1][0][2]);
 }
